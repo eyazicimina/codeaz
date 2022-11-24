@@ -1,0 +1,9 @@
+{
+    "algoritma1-neuralnetwork":{
+        "hls": 2,
+        "epoch": 2000
+    },
+    "algoritma2-randomforest": {
+        "max_depth": 5
+    }
+}

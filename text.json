@@ -1,0 +1,14 @@
+{
+  "az": {
+    "hello": "Selam",
+    "bye": "sagol"
+  },
+  "tr": {
+    "hello": "Merhaba",
+    "bye": "gule gule"
+  },
+  "en": {
+    "hello": "Hello",
+    "bye": "bye"
+  }
+}
