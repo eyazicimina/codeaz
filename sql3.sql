@@ -50,10 +50,31 @@ select count(*) from PurchaseDetail;
 
 
 -- calculate the gross sales
-SELECT SUM(pd.amount * p.price)
+-- AGGREGATION FUNCTION: SUM, AVG, COUNT...., MAX MIN ..
+SELECT pu.userid, SUM(pd.amount * p.price)
 FROM PurchaseDetail pd
-INNER JOIN Product p ON p.id = pd.productid;
+INNER JOIN Product p ON p.id = pd.productid
+INNER JOIN Purchase pu ON pu.id = pd.purchaseid
+GROUP BY pu.userid
+ORDER BY 2 DESC;
 
+
+
+SELECT pu.userid, AVG(pd.amount * p.price)
+FROM PurchaseDetail pd
+INNER JOIN Product p ON p.id = pd.productid
+INNER JOIN Purchase pu ON pu.id = pd.purchaseid
+GROUP BY pu.userid
+ORDER BY 2 DESC;
+
+
+-- EN SIK alan, HIGHEST FREQUENCY!  - ADET == COUNT
+SELECT pu.userid, COUNT(*)
+FROM PurchaseDetail pd
+INNER JOIN Product p ON p.id = pd.productid
+INNER JOIN Purchase pu ON pu.id = pd.purchaseid
+GROUP BY pu.userid
+ORDER BY 2 DESC;
 
 
 
