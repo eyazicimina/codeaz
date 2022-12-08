@@ -219,4 +219,25 @@ print(df)
 
 
 
+import MySQLConnection
+query = "Select * from Nefer;"
+#result_dataFrame = pd.read_sql(query,MySQLConnection.cnx)
+#print(result_dataFrame)
+
+
+# EMPTY Data Frame -- how to create an empty dataframe
+empty = pd.DataFrame( columns = ['id', 'FIN', 'firstname', 'lastname', 'gender', 'birthdate'] )
+
+for record in MySQLConnection.dbSelect("SELECT id, FIN, firstname, lastname, gender, birthdate FROM Nefer LIMIT 5;"):
+	# How to add one by one
+	empty.loc[len(empty)] = list(record)
+
+print(empty)
+
+#: Loop for each row
+for i in range(len(df)):
+	#: i th row
+	row = list(df.iloc[i].values)
+	#MySQLConnection.dbInsert("INSERT INTO ..... (...) VALUES ();")
+	print(row.values)
 
