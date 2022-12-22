@@ -52,7 +52,7 @@ for c in dwlltype:
 print(dwlltype)
 
 import matplotlib.pyplot as plt
-plt.pie( dwlltype.values(), labels = dwlltype.keys() )
+#! plt.pie( dwlltype.values(), labels = dwlltype.keys() )
 #plt.show()
 
 
@@ -74,5 +74,68 @@ print(randomList.count('S'))
 	else:
 		print('M')
 """
+
+
+df = pd.read_csv("/home/mina5/PycharmProjects/codeaz-python/w6_e-commerce.csv", encoding='latin-1')
+df['CustomerID'] = df['CustomerID'].astype(str)
+df2 = pd.DataFrame(columns = ['CustomerID', 'Products'])
+
+for a in df.groupby(['CustomerID']):
+
+	df2.loc[ len(df2) ] = [ a[0], a[1]['StockCode'].unique() ]
+	#print(a[0]) # -- customerId
+	#print(a[1]['StockCode'].unique()) # dataframe (df[ df['customerId] == a[0] ]
+
+print(df2)
+
+#: Get random indexes
+ind0 = random.randint( 0, len(df2) - 1 )
+ind1 = random.randint( 0, len(df2) - 1 )
+
+#: Get the rows
+row0 = list(df2.iloc[ ind0 ]['Products'])
+row1 = list(df2.iloc[ ind1 ]['Products'])
+
+
+def jaccard( l0, l1 ):
+	return len(set(l0).intersection(set(l1))) / len(set(l0).union(set(l1)))
+
+
+print(row0, type(row0))
+print(row1, type(row1))
+
+print(jaccard( row0, row1 ))
+
+# ASSIGNMENT: 22 DECEMBER, Find the most similar customers by their bought products
+
+
+# ALTERNATIVE APPROACH TO FILL CATEGORICAL VALUES
+# random.choice( list( dx[ dx['ownrent'].notnull() ]['ownrent'].values ) )
+# R ve O gelme probability
+
+# AFTER NOON ASSIGNMENT 2:
+# Use the expression below to fill the dataset
+# random.choice( list( dx[ dx['ownrent'].notnull() ]['ownrent'].values ) )
+
+"""
+list( dx[ dx['ownrent'].notnull() ]['ownrent'].values ) # liste cevrilmis hali
+dx[ dx['ownrent'].notnull() ]['ownrent'].values # null olmayan kayitlarin ownrent kolonundaki valuelar
+dx[ dx['ownrent'].notnull() ]['ownrent'] # null olmayan kayitlarin ownrent kolonu
+dx[ dx['ownrent'].notnull() ] # null olmayan kayitlar
+dx['ownrent'].notnull()  # null olmayanlar
+"""
+
+
+# FILLING NUMERICAL VARIABLES
+# ? mean XXX
+#   median XXX
+import numpy as np
+mu, sigma = dx['hnd_price'].mean(), dx['hnd_price'].std() # mean and standard deviation
+s = np.random.normal(mu, sigma, 1000)
+plt.hist(s)
+#plt.show()
+print(np.mean(s), np.std(s))
+print(dx['hnd_price'].describe())
+
 
 
