@@ -29,8 +29,9 @@ b1, b0 = linreg( range(len(values)), values )
 # y = index * b1 + b0
 #: Add the trend to dataset
 df['Trend'] = df['Index'] * b1 + b0
+del df['Index']
 #: Make it detrend
-df['Detrend'] = df['Value'] - df['Trend']
+# df['Detrend'] = df['Value'] - df['Trend']
 #: Lag
 d2 = pd.DataFrame(columns = ['Value', 'Lag1', 'Lag3'])
 for i in range(3, len(df)):
@@ -82,6 +83,9 @@ df.to_csv(path + 'w10timeseries.csv')
 
 from sklearn.neural_network import MLPRegressor
 
+dt = df['DATE']
+del df['DATE']
+
 train = df[0:300]
 test = df[300:]
 
@@ -92,5 +96,27 @@ test_y = test['Value']
 test_x = test.drop( columns = ['Value'] )
 
 
+# MLP = HARD complex algortihm
+# THIS MEANS IT MAY REQUIRE HUGE AMOUNT OF DATA!!!!!! (10.000 +)
+from sklearn.linear_model import LinearRegression
+
+
 regr = MLPRegressor(random_state=1, max_iter=500).fit(train_x, train_y)
-regr.score( test_x, test_y )
+regr = LinearRegression().fit(train_x, train_y)
+print(regr.coef_)
+print(regr.intercept_)
+print(train_x.columns)
+
+print( regr.score( test_x, test_y ) )
+
+test_x['pred'] = regr.predict( test_x )
+test_x['real'] = test_y
+test_x.to_csv(path + 'w10analysis.csv')
+
+
+df.corr().to_csv(path + "w10timeseries2.csv")
+
+# SCORING ,, correlations will be lower!!!!
+
+
+
