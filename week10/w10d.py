@@ -30,92 +30,60 @@ b1, b0 = linreg( range(len(values)), values )
 #: Add the trend to dataset
 df['Trend'] = df['Index'] * b1 + b0
 del df['Index']
-#: Make it detrend
-# df['Detrend'] = df['Value'] - df['Trend']
-#: Lag
-d2 = pd.DataFrame(columns = ['Value', 'Lag1', 'Lag3'])
-for i in range(3, len(df)):
-	l3 = df.iloc[i-3]['Value']
-	l1 = df.iloc[i-1]['Value']
-	l0 = df.iloc[i]['Value']
-
-	d2.loc[ len(d2) ] = [l0, l1, l3]
 
 df['Lag1'] = df['Value'].shift(1)
 df['Lag6'] = df['Value'].shift(6)
 df['Lag5'] = df['Value'].shift(5)
 df['Lag12'] = df['Value'].shift(12)
 # The problem of increasing L:
-# (1) 12 rows will be deleted !! L = 24, 24 rows will be deleted
-# (2) It may show the data is correlated, but as the new data comes, the correlation may drop (L = 60, 2months)
-
-
-
-
-#: Auto correlation
-for i in range(1, 31):
-	print(i, df['Value'].corr( df['Value'].shift(i)  ))
-
-print(df.shape, df.columns)
-
-#: Moving average
-d3 = pd.DataFrame(columns = ['Value', 'ma3'])
-for i in range(3, len(df)):
-	l3 = df.iloc[i-3]['Value']
-	l2 = df.iloc[i-2]['Value']
-	l1 = df.iloc[i-1]['Value']
-
-	ma3 = np.mean( [l1, l2, l3] )
-
-	l0 = df.iloc[i]['Value']
-	d3.loc[ len(d3) ] = [ l0, ma3 ]
-
-print(d3)
 
 # Feature generation
 df['ma3'] = df['Value'].rolling(3, closed = 'left').mean()
 df['ma5'] = df['Value'].rolling(5, closed = 'left').mean()
+#: Create a column to forecast "TOMORROW", NOT "TODAY"
+df['target'] = df['Value'].shift(-1)
+#: Remove the value column (we are not going to use it)
+del df['Value']
 
 df = df.dropna()
-print(df)
 
-df.to_csv(path + 'w10timeseries.csv')
+
+
 
 from sklearn.neural_network import MLPRegressor
 
 dt = df['DATE']
 del df['DATE']
 
-train = df[0:300]
-test = df[300:]
+train = df[0:335]
+test = df[335:]
 
-train_y = train['Value']
-train_x = train.drop( columns = ['Value'] )
+train_y = train['target']
+train_x = train.drop( columns = ['target'] )
 
-test_y = test['Value']
-test_x = test.drop( columns = ['Value'] )
+test_y = test['target']
+test_x = test.drop( columns = ['target'] )
 
 
 # MLP = HARD complex algortihm
 # THIS MEANS IT MAY REQUIRE HUGE AMOUNT OF DATA!!!!!! (10.000 +)
 from sklearn.linear_model import LinearRegression
 
-
-regr = MLPRegressor(random_state=1, max_iter=500).fit(train_x, train_y)
-regr = LinearRegression().fit(train_x, train_y)
-print(regr.coef_)
-print(regr.intercept_)
+from sklearn.ensemble import RandomForestRegressor
+regr = MLPRegressor(random_state=1, max_iter=500, hidden_layer_sizes=(20,)).fit(train_x, train_y)
+regr = RandomForestRegressor(max_depth=4, random_state=0).fit(train_x, train_y)
+#regr = LinearRegression().fit(train_x, train_y)
+#print(regr.coef_)
+#print(regr.intercept_)
 print(train_x.columns)
 
 print( regr.score( test_x, test_y ) )
 
 test_x['pred'] = regr.predict( test_x )
 test_x['real'] = test_y
-test_x.to_csv(path + 'w10analysis.csv')
 
-df.corr().to_csv(path + "w10timeseries2.csv")
+print(test_x.shape)
 
-# SCORING ,, correlations will be lower!!!!
-
+test_x.to_csv(path + "w10results.csv")
 
 
