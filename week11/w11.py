@@ -7,11 +7,9 @@ print(df)
 
 del df['Geography']
 df['Gender'] = df['Gender'].map({'Female': 1, 'Male': 0})
-print(df.columns)
 from sklearn.decomposition import PCA
 
 #df = df[ df['Balance'] < 500 ] # balance olmayanlar
-
 print(df.shape)
 pca = PCA(n_components=2)
 pca.fit(df)
