@@ -1,0 +1,91 @@
+https://docs.h2o.ai/h2o/latest-stable/h2o-docs/automl.html
+
+
+
+	#: Declare models
+	MODELHUB = {
+
+		#: LGBMClassifier
+		'LGBMClassifier-10': {"model":lgb.LGBMClassifier(boosting_type = 'dart', max_depth = 10 )},
+		'LGBMClassifier-25': {"model":lgb.LGBMClassifier(boosting_type = 'dart', max_depth = 25 )},
+		'LGBMClassifier-50': {"model":lgb.LGBMClassifier(boosting_type = 'dart', max_depth = 50 )},
+		#: LGBMRegressor
+		'LGBMRegressor-10': {"model":lgb.LGBMRegressor(boosting_type = 'dart', max_depth = 10 )},
+		'LGBMRegressor-25': {"model":lgb.LGBMRegressor(boosting_type = 'dart', max_depth = 25 )},
+		'LGBMRegressor-50': {"model":lgb.LGBMRegressor(boosting_type = 'dart', max_depth = 50 )},
+
+		#: MLPRegressor
+		'MLPRegressor-400-adaptive-sgd': {"model":MLPRegressor(hidden_layer_sizes=(400,), learning_rate='adaptive', max_iter=2000, solver='sgd')},
+		'MLPRegressor-300-adaptive': {"model":MLPRegressor(hidden_layer_sizes=(300,), learning_rate='adaptive', max_iter=2000)},
+		'MLPRegressor-400': {"model":MLPRegressor(hidden_layer_sizes=(400,), max_iter=2000)},
+		'MLPRegressor-250-adaptive': {"model":MLPRegressor(hidden_layer_sizes=(250,), learning_rate='adaptive', max_iter=2000)},
+		'MLPRegressor-300-100-adaptive': {"model":MLPRegressor(hidden_layer_sizes=(300, 100), learning_rate='adaptive', max_iter=2000)},
+		'MLPRegressor-400-20': {"model":MLPRegressor(hidden_layer_sizes=(400, 20), max_iter=2000)},
+		'MLPRegressor-250-100-adaptive': {"model":MLPRegressor(hidden_layer_sizes=(250, 100), learning_rate='adaptive', max_iter=2000)},
+
+		#: MLPClassifier
+		'MLPClassifier-400-adaptive-sgd': {"model":MLPClassifier(hidden_layer_sizes=(400,), learning_rate='adaptive', max_iter=2000, solver='sgd')},
+		'MLPClassifier-300-adaptive': {"model":MLPClassifier(hidden_layer_sizes=(300,), learning_rate='adaptive', max_iter=2000)},
+		'MLPClassifier-400': {"model":MLPClassifier(hidden_layer_sizes=(400,), max_iter=2000)},
+		'MLPClassifier-250-adaptive': {"model":MLPClassifier(hidden_layer_sizes=(250,), learning_rate='adaptive', max_iter=2000)},
+		'MLPClassifier-300-100-adaptive': {"model":MLPClassifier(hidden_layer_sizes=(300, 100), learning_rate='adaptive', max_iter=2000)},
+		'MLPClassifier-400-20': {"model":MLPClassifier(hidden_layer_sizes=(400, 20), max_iter=2000)},
+		'MLPClassifier-250-100-adaptive': {"model":MLPClassifier(hidden_layer_sizes=(250, 100), learning_rate='adaptive', max_iter=2000)},
+		#: GradientBoostingClassifier
+		'GradientBoostingClassifier-lad': {"model":GradientBoostingClassifier(loss = 'lad')},
+		'GradientBoostingClassifier-huber-50': {"model":GradientBoostingClassifier(loss = 'huber', learning_rate = 0.3, n_estimators = 50)},
+		'GradientBoostingClassifier-lad-150': {"model":GradientBoostingClassifier(loss = 'lad', n_estimators = 150)},
+		'GradientBoostingClassifier-huber-50-mae': {"model":GradientBoostingClassifier(loss = 'huber', learning_rate = 0.3, n_estimators = 50, criterion = 'mae') },
+		#: GradientBoostingRegressor
+		'GradientBoostingRegressor-lad': {"model":GradientBoostingRegressor(loss = 'lad')},
+		'GradientBoostingRegressor-huber-50': {"model":GradientBoostingRegressor(loss = 'huber', learning_rate = 0.3, n_estimators = 50)},
+		'GradientBoostingRegressor-lad-150': {"model":GradientBoostingRegressor(loss = 'lad', n_estimators = 150)},
+		'GradientBoostingRegressor-huber-50-mae': {"model":GradientBoostingRegressor(loss = 'huber', learning_rate = 0.3, n_estimators = 50, criterion = 'mae') },
+		#: RandomForestRegressor
+		'RandomForestRegressor-25': {"model":RandomForestRegressor( n_estimators = 25, criterion = 'mae', max_depth = 25 )},
+		'RandomForestRegressor-50': {"model":RandomForestRegressor( n_estimators = 50, criterion = 'mae', max_depth = 25 )},
+		'RandomForestRegressor-100': {"model":RandomForestRegressor( n_estimators = 100, criterion = 'mae', max_depth = 25 )},
+		#: RandomForestClassifier
+		'RandomForestClassifier-25': {"model":RandomForestClassifier( n_estimators = 25, criterion = 'mae', max_depth = 25 )},
+		'RandomForestClassifier-50': {"model":RandomForestClassifier( n_estimators = 50, criterion = 'mae', max_depth = 25 )},
+		'RandomForestClassifier-100': {"model":RandomForestClassifier( n_estimators = 100, criterion = 'mae', max_depth = 25 )},
+		#: AdaBoostRegressor
+		'AdaBoostRegressor-25': {"model":AdaBoostRegressor( n_estimators = 25, learning_rate=0.2 )},
+		'AdaBoostRegressor-50': {"model":AdaBoostRegressor( n_estimators = 50, learning_rate=0.2 )}, 
+		#! 'AdaBoostRegressor-50-square': {"model":AdaBoostRegressor( n_estimators = 50, learning_rate=0.2, loss='square' )},
+		#! 'AdaBoostRegressor-100-square': {"model":AdaBoostRegressor( n_estimators = 100, learning_rate=0.15, loss='square' )},
+		#: AdaBoostClassifier
+		'AdaBoostClassifier-25': {"model":AdaBoostClassifier( n_estimators = 25, learning_rate=0.2 )},
+		'AdaBoostClassifier-50': {"model":AdaBoostClassifier( n_estimators = 50, learning_rate=0.2 )}, 
+		#! 'AdaBoostClassifier-50-square': {"model":AdaBoostClassifier( n_estimators = 50, learning_rate=0.2, loss='square' )},
+		#! 'AdaBoostClassifier-100-square': {"model":AdaBoostClassifier( n_estimators = 100, learning_rate=0.15, loss='square' )},
+		#: BaggingClassifier
+		'BaggingClassifier-10': {"model":BaggingClassifier( n_estimators = 10 )},
+		'BaggingClassifier-25': {"model":BaggingClassifier( n_estimators = 25 )},
+		'BaggingClassifier-50': {"model":BaggingClassifier( n_estimators = 50 )},
+		#: BaggingRegressor
+		'BaggingRegressor-10': {"model":BaggingRegressor( n_estimators = 10 )},
+		'BaggingRegressor-25': {"model":BaggingRegressor( n_estimators = 25 )},
+		'BaggingRegressor-50': {"model":BaggingRegressor( n_estimators = 50 )},
+		#: XGBClassifier
+		'XGBClassifier-25-10-gbtree': {"model":xgb.XGBClassifier(objective = "reg:linear", n_estimators = 25, max_depth = 10, learning_rate = 0.1, booster = 'gbtree' )},
+		'XGBClassifier-25-30-gbtree': {"model":xgb.XGBClassifier(objective = "reg:linear", n_estimators = 25, max_depth = 30, learning_rate = 0.1, booster = 'gbtree' )},
+		'XGBClassifier-25-30-dart': {"model":xgb.XGBClassifier(objective = "reg:linear", n_estimators = 25, max_depth = 30, learning_rate = 0.1, booster = 'dart' )},
+		'XGBClassifier-200-30-gblinear': {"model":xgb.XGBClassifier(objective = "reg:linear", n_estimators = 200, max_depth = 30, learning_rate = 0.1, booster = 'gblinear' )},
+		#: XGBRegressor
+		'XGBRegressor-25-10-gbtree': {"model":xgb.XGBRegressor(objective = "reg:linear", n_estimators = 25, max_depth = 10, learning_rate = 0.1, booster = 'gbtree' )},
+		'XGBRegressor-25-30-gbtree': {"model":xgb.XGBRegressor(objective = "reg:linear", n_estimators = 25, max_depth = 30, learning_rate = 0.1, booster = 'gbtree' )},
+		'XGBRegressor-25-30-dart': {"model":xgb.XGBRegressor(objective = "reg:linear", n_estimators = 25, max_depth = 30, learning_rate = 0.1, booster = 'dart' )},
+		'XGBRegressor-200-30-gblinear': {"model":xgb.XGBRegressor(objective = "reg:linear", n_estimators = 200, max_depth = 30, learning_rate = 0.1, booster = 'gblinear' )},
+		#: BalancedBaggingClassifier
+		'BalancedBaggingClassifier-10': {"model": BalancedBaggingClassifier(n_estimators=10)},
+		'BalancedBaggingClassifier-20': {"model": BalancedBaggingClassifier(n_estimators=20)},
+		'BalancedBaggingClassifier-50': {"model": BalancedBaggingClassifier(n_estimators=50)},
+		'BalancedBaggingClassifier-100': {"model": BalancedBaggingClassifier(n_estimators=100)},
+		#: BalancedRandomForestClassifier
+		'BalancedRandomForestClassifier-10': {"model": BalancedRandomForestClassifier(n_estimators=10)},
+		'BalancedRandomForestClassifier-20': {"model": BalancedRandomForestClassifier(n_estimators=20)},
+		'BalancedRandomForestClassifier-50': {"model": BalancedRandomForestClassifier(n_estimators=50)},
+		'BalancedRandomForestClassifier-100': {"model": BalancedRandomForestClassifier(n_estimators=100)},
+	}
+	
