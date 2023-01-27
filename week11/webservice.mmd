@@ -1,0 +1,19 @@
+
+flowchart TD;
+
+    WS[Web Service:Executor]
+    BR[Browser:User]
+    AP[API:Program]
+    PI[Load Pickle:Trained Model]
+    PR[Preprocess:Python Module]
+    PE[Predict]
+
+    AP-->WS
+    BR-->WS
+
+    subgraph s1
+    PI-->WS
+    PR-->WS
+    end
+
+    WS-->PE

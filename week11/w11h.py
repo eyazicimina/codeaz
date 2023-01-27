@@ -46,4 +46,3 @@ loaded_model = pickle.load(open('w11.pickle', 'rb'))
 print("f1", f1_score( test_y, loaded_model.predict(test_x) ) )
 
 
-

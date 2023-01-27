@@ -1,0 +1,12 @@
+flowchart TD;
+
+    FA[Fetch All]
+    PR[Predict]
+    PE[Preprocess:Python Module]
+    PI[Pickle]
+    WR[Write To Database]
+
+    PI-->PE
+    PE-->FA
+    FA-->PR
+    PR-->WR

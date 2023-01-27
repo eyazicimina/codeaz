@@ -1,0 +1,17 @@
+
+flowchart TD;
+
+    RE[Customer]
+    PO[Poll]
+    GO[Government]
+    MO[Model]
+
+    RE-- Credit Card Request -->PO
+
+    subgraph Waiting
+    PO-- Ask -->GO
+    GO-- Result -->PO
+    end
+
+    PO-->MO
+    MO-- Accept or Not:SMS -->RE

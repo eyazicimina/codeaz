@@ -1,0 +1,19 @@
+
+flowchart TD;
+
+    WH[While Loop]
+    FN[Fetch New]
+    PR[Predict]
+    PE[Preprocess:Python Module]
+    PI[Pickle]
+    WR[Write To Database]
+    WA[Wait]
+
+    PI-->PE
+    PE-->WH
+
+    WH o--o FN
+    WH o--o PR
+    WH o--o WR
+    WH o--o WA
+
