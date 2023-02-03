@@ -19,7 +19,6 @@ pca.fit(df)
 pickle.dump( pca, open(path + "w12pickle.pickle", "wb") )
 pd.DataFrame(pca.transform(df)).to_csv(path + "w12dr.csv")
 
-pca.
 
 
 dprojected = pd.read_csv(path + "w12dr.csv")
